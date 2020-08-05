@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="style.css">
+		<script src="script.js"></script>
+		<script type="text/x-mathjax-config">
+		// Configure MathJax to use TeX-like delimiters.
+		MathJax.Hub.Config({
+			tex2jax: {inlineMath: [["$","$"]]}
+		});
+		</script>
+		<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		<title>Vectors & Matrices</title>
+		<link rel="shortcut icon" href="https://www.wgtn.ac.nz/__data/assets/git_bridge/0005/1778018/dist/images/favicon.ico" type="image/x-icon" />
+	</head>
+	<body>
+		<div class="vuw">
+			<img src="https://www.wgtn.ac.nz/__data/assets/git_bridge/0005/1778018/dist/images/new/v2/logo-white-full.svg?v=2">
+			School of Engineering and Computer Science
+		</div>
+		<div id="page">
+			<div id="demos">
+				<canvas id="demo1"></canvas>
+				<canvas id="demo2"></canvas>
+				<canvas id="demo3"></canvas>
+				<canvas id="demo4"></canvas>
+				<canvas id="demo5"></canvas>
+				<canvas id="demo6"></canvas>
+			</div>
+			<div id="article">
+				<h1>Vectors</h1>
+				A vector is a collection of numbers. In programming, you may sometimes see vectors used to refer to a point, <em>but this is not correct</em>.<br><br>
+				
+				Instead, a nice way to understand vectors is to think about them as lines. If we start at any arbitrary point in space, say $(0, 0)$, then the vector
+				<div class="centerBlock">$\left[\begin{array}{c}2\\4\end{array}\right]$</div>
+				means that we are travelling 2 units right on the $x$ axis, and 4 units up on the $y$ axis, relative to that point; e.g. we're drawing the line from $(0, 0)$ to $(2, 4)$.<br><br>
+				
+				To get a better feel for this, you can drag the arrowhead around in the example to the left, to see how that changes the vector that it represents (as shown below):
+				<div class="centerBlock" id="demo1Jax">$\left[\begin{array}{c}2\\4\end{array}\right]$</div><br>
+				
+				Vectors represent a combination of magnitude and direction. The magnitude of a vector is given by the length of its line. The direction of a vector is the direction that the arrow is pointing in.<br><br>
+				
+				There are many cases where it is useful to have these two properties combined. For example, a single vector can be used to define a velocity: how fast the object is moving is represented by the magnitude, and the direction in which the object is moving can be simply represented by the direction of the vector.<br><br>
+				
+				A surprising amount of content in computer graphics (especially 3D computer graphics) makes use of vectors. The direction that a quad / tri in 3D faces (e.g. its <em>normal</em>) is a vector. The forces used to make objects move in a physics simulation are vectors. The direction from an object to a light source is a vector.
+				
+				<h2>Vector Operations</h2>
+				
+				Representations are great, but sometimes we also need to perform operations on vectors. There are a couple of easy ones to start off with:
+				
+				<h3>Adding and Subtracting Vectors</h3>
+				You can only add and subtract vectors which have the same <em>dimensions</em>. In all of our previous examples, our vectors have a dimension of 2, as they each have two elements, $x$ and $y$. However, you can have vectors with as many elements as you like in them. 3 dimensional vectors have three elements in them like so:
+				<div class="centerBlock">$\left[\begin{array}{c}2\\4\\3\end{array}\right]$</div>
+				Clearly, 4 dimensional vectors would have four elements, five dimensional would have five, and so on.<br><br>
+				If your vectors both have the same dimensions (e.g. same number of elements in them), then you simply add the items in each together to make a new vector, like so:
+				<div class="centerBlock">$\left[\begin{array}{c}2\\4\end{array}\right] + \left[\begin{array}{c}7\\8\end{array}\right]=\left[\begin{array}{c}2 + 7\\4 + 8\end{array}\right]=\left[\begin{array}{c}9\\12\end{array}\right]$</div><br>
+				The same goes for subtraction:
+				<div class="centerBlock">$\left[\begin{array}{c}5\\0\end{array}\right] - \left[\begin{array}{c}2\\6\end{array}\right]=\left[\begin{array}{c}5 - 2\\0 - 6\end{array}\right]=\left[\begin{array}{c}3\\-6\end{array}\right]$</div><br><br>
+				Interestingly, this can be represented graphically too. By arranging two vectors to add so that the head of one touches the tail of the other, their sum is represented by the vector which would turn the formation into a triangle. You can play with this in the example to the left.
+				<div class="centerBlock" id="demo2Jax">$\left[\begin{array}{c}3\\3\end{array}\right] + \left[\begin{array}{c}5\\1\end{array}\right]=\left[\begin{array}{c}3 + 5\\3 + 1\end{array}\right]=\left[\begin{array}{c}8\\4\end{array}\right]$</div>
+				
+				<h3>Multiplying (by Scalars)</h3>
+				A Scalar is just an ordinary number, like $3$ or $7$. When you multiply a vector by a scalar, you multiply each of its inner values by the scalar, meaning that the direction of the vector doesn't change, but its magnitude does. Here is an example:
+				<div class="centerBlock" id="demo3Jax">$2\times\left[\begin{array}{c}3\\2\end{array}\right]=\left[\begin{array}{c}2\times3\\2\times2\end{array}\right]=\left[\begin{array}{c}6\\12\end{array}\right]$</div>
+				You can view the effects of different scalar multipliers in the example to the left, with the dimmed vector being the original (for reference). You can change the scalar value using the slider below:
+				<div class="centerBlock">
+					<input type="range" value="2" min="-2" max="2" step="0.5" id="scalarInput">
+					<br><span style="float:left">&ensp;$-2$</span> $0$ <span style="float:right">$2$&emsp;</span>
+				</div>
+				
+				<h3>Finding the Magnitude / Length</h3>
+				To find the length (magnitude) of a vector, you can use Pythagoras's theorem (which does indeed generalise up to higher dimensions). If you recall from previous Math classes, to find the unknown length of one side of a triangle when you know the lengths of the other two, you can use $\sqrt{a^2 + b^2}$, where $a$ and $b$ are the lengths of the two known sides.<br><br>
+				Why does this work? Well, for say the vector
+				<div class="centerBlock">$\left[\begin{array}{c}2\\4\end{array}\right]$</div>
+				we know that it has a width of 2 on the X-axis, and a height of 4 on the Y-axis. Therefore, we have the two known sides, and are left with the one side we don't know: the actual vector. In this case, we could use the Pythagoras theorem to find the length like so:
+				<div class="centerBlock">$\sqrt{2^2 + 4^2} = 4.472$ (3 d.p.)</div><br>
+				You can visualise this using the example to the left.
+				
+				<h3>The Dot Product</h3>
+				The Dot Product is arguably the most useful vector operator. It takes in two vectors, and outputs a single scalar. Here is how the dot product calculation is performed:
+				<div class="centerBlock">$\left[\begin{array}{c}2\\4\end{array}\right]\cdot\left[\begin{array}{c}3\\6\end{array}\right]=(2\times3) + (4\times6)=6+24=30$</div>
+				As you can see, the values of each dimension of both vectors are multiplied together (as with adding and subtracting, both vectors must be of the same dimension), and then collectively summed together.<br><br>
+				What does this do? Well, we can think about it as growing each of the dimensions by a certain amount. Lets look at a few cases together:
+				<br><br>
+				<table>
+					<tr>
+						<td>$\left[\begin{array}{c}2\\0\end{array}\right]\cdot\left[\begin{array}{c}4\\0\end{array}\right]=2\times4$</td>
+						<td>The $x$ dimension grows four times larger, while nothing happens on the $y$ dimension. <strong>This is just normal multiplication!</strong></td>
+					</tr>
+					<tr>
+						<td>$\left[\begin{array}{c}2\\0\end{array}\right]\cdot\left[\begin{array}{c}0\\4\end{array}\right]=0$</td>
+						<td>Neither of the dimensions are kept.</td>
+					</tr>
+					<tr>
+						<td>$\left[\begin{array}{c}2\\4\end{array}\right]\cdot\left[\begin{array}{c}1\\1\end{array}\right]=2+4$</td>
+						<td>Both dimensions keep their original size.</td>
+					</tr>
+					<tr>
+						<td>$\left[\begin{array}{c}2\\4\end{array}\right]\cdot\left[\begin{array}{c}3\\5\end{array}\right]=(2\times3)+(4\times5)$</td>
+						<td>The $x$ dimension grows three times bigger, the $y$ dimension grows five times bigger.</td>
+					</tr>
+				</table><br>
+				
+				While it may now be a lot clearer as to what is going on, a good question remains: why would we want to do this?<br><br>
+				
+				Well, it turns out that while we can calculate the dot product as described above, we can <em>also</em> calculate it like so:
+				
+				<div class="centerBlock">$\mathbf{a}\cdot\mathbf{b}=|\mathbf{a}|\times|\mathbf{b}|\times\mathrm{cos}\:\theta$</div>
+				
+				This is very useful, as we can re-arrange it to find the angle between vectors:
+				<div class="centerBlock">
+					$\mathrm{cos}\:\theta=\frac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|\times|\mathbf{b}|}$
+				</div>
+				
+				This allows us to:
+				<ul>
+					<li>Find out if vectors are perpendicular (e.g. at a right angle) to each other -- the dot product is always 0 if they are</li>
+					<li>Project one vector onto another</li>
+					<li>Find the closest point on a line</li><!--(we won't touch on this one here - read through <a href="https://ecs.wgtn.ac.nz/foswiki/pub/Courses/CGRA151_2020T2/Assignments/CGRA151_maths_workbook.pdf">the offical maths workbook</a> to get a better understanding of how this works)-->
+				</ul>
+				
+				You can play with finding the projection and closest point on a line in the example to the left:
+				<ul>
+					<li>We use $\frac{(B - A)\cdot(C - A)}{|B-A|^2}$ to find the closest point on the line (this is the point the yellow bar / grey bar are drawn to on the red vector). $A$ in our example is the origin point of the two vectors, $B$ is the end of the red vector, and $C$ is the end of the blue vector. Note that both $A$ and $B$ have $x$ and $y$ components -- the equation needs to be done twice, once to find the $x$ values, and once to find the $y$ values.</li>
+					<li>If you wanted to find the length of the yellow portion (this is the projection), you could use $l=\frac{\mathbf{v_0}\cdot\mathbf{v_1}}{|\mathbf{v_0}|}$</li>
+				</ul>
+					
+				<h1>Matrices</h1>
+				Matrices in general are covered more comprehensively elsewhere.
+				<ul>
+					<li>The offical course <a href="https://ecs.wgtn.ac.nz/foswiki/pub/Courses/CGRA151_2020T2/Assignments/CGRA151_maths_workbook.pdf">Maths Workbook</a></li>
+					<li>The website <a href="http://matrixmultiplication.xyz/">matrixmultiplication.xyz</a> is great to help visualise matrix multiplications.</li>
+				</ul>
+				
+				<h1>Transformation Matrices</h1>
+				A transformation matrix is a square matrix which, when applied to a point, transforms it in space in some way. There are <s>three</s> four types of transformation matrix:
+				<ul>
+					<li>Translation;</li>
+					<li>Rotation;</li>
+					<li>Scale;</li>
+					<li>Shear (which is not used often, and not assessed in the course)</li>
+				</ul>
+				Note that transformation matrices are always one dimension higher than the space that they are working on. For example, to perform a transformation on a 2D point, you need a 3D matrix, and to perform a transformation on a 3D point, you need a 4D matrix.<br><br>
+				Transformation Matrices are applied by performing a matrix-vector multiplication, with a vector which represents the coordinates of the point to translate.<br><br>
+				Note that throughout the following section we'll refer to transformations as taking place in 2D space, but all of this generalises to 3D as well.
+				
+				<h2>Translation</h2>
+				<img src="imgs/translate.gif" class="transformGif">
+				Translation is moving a shape across the $x$ and $y$ dimensions. Transformation matrices appear like so:
+				
+				<div class="centerBlock">
+					$\left[\begin{array}{c}1&0&x\\0&1&y\\0&0&1\end{array}\right]$
+				</div>
+				
+				Where $x$ and $y$ are the amount to translate the shape in those respective directions.
+				
+				<h2>Scale</h2>
+				<img src="imgs/scale.gif" class="transformGif">
+				Scaling resizes a shape in the $x$ and $y$ dimensions.
+				
+				<div class="centerBlock">
+					$\left[\begin{array}{c}x&0&0\\0&y&0\\0&0&1\end{array}\right]$
+				</div>
+				
+				Where $x$ and $y$ are the multiple to scale by (<em>e.g.</em> a value of 1 performs no scale, a value of 2 means twice as large on that dimension, and a value of 0.5 would mean half as large, <em>etc</em>).<br><br>
+				Negative values here perform reflection; e.g. an $x$ value of -1 would flip the shape along the $x$ axis.
+				
+				<h2>Rotation</h2>
+				<img src="imgs/rotate.gif" class="transformGif">
+				Rotation rotates a shape. If you think in terms of three dimensions, the shape is being rotated around it's $z$ axis.
+				
+				<div class="centerBlock">
+					$\left[\begin{array}{c}\mathrm{cos}\:\theta&-\mathrm{sin}\:\theta&0\\\mathrm{sin}\:\theta&\mathrm{cos}\:\theta&0\\0&0&1\end{array}\right]$
+				</div>
+				
+				Would rotate the shape by $\theta$ radians.
+				
+				<h2>Shear</h2>
+				<img src="imgs/shear.gif" class="transformGif">
+				Included for the sake of completeness, shear matrices skew a shape along one of its dimensions.
+				
+				<div class="centerBlock">
+					$\left[\begin{array}{c}1&x&0\\y&1&0\\0&0&1\end{array}\right]$
+				</div>
+				
+				Would shear the shape by $x$ amount on the $x$ axis and $y$ amount on the $y$ axis.
+				
+				<h2>Summary</h2>
+				What's great about transformation matrices is that they can be multiplied together. For example, you could multiply a rotation matrix with a scale matrix to get one single matrix which can apply both operators in one step. They also make it incredibly easy to encode these kinds of operations, and the operations required to carry out the transformations can be implemented very efficently in silicon on <em>e.g.</em> a graphics card.<br><br>
+				To let you play around with matrix operations, we have one last example. You can fill out the matrix below and click apply to update the positions of the points in the example to the left, and you can also move the points manually to create a different shape.<br><br>
+				
+				<table id="matrixInput">
+					<tr>
+						<td>
+							<select id="matrix1type"><option selected></option><option>cos</option></select>
+							<input type="number" id="matrix1" value="1">
+						</td>
+						<td>
+							<select id="matrix2type"><option selected></option><option>-sin</option></select>
+							<input type="number" id="matrix2" value="0">
+						</td>
+						<td>
+							<input type="number" id="matrix3" value="0">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<select id="matrix4type"><option selected></option><option>sin</option></select>
+							<input type="number" id="matrix4" value="0">
+						</td>
+						<td>
+							<select id="matrix5type"><option selected></option><option>cos</option></select>
+							<input type="number" id="matrix5" value="1">
+						</td>
+						<td>
+							<input type="number" id="matrix6" value="0">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="number" id="matrix7" value="0">
+						</td>
+						<td>
+							<input type="number" id="matrix8" value="0">
+						</td>
+						<td>
+							<input type="number" id="matrix9" value="1">
+						</td>
+					</tr>
+				</table>
+				<button id="matrixApply">Apply!</button>
+				
+				Reset shape to: <button id="matrix3Pts">3 Points</button> <button id="matrix4Pts">4 Points</button> <button id="matrix5Pts">5 Points</button><br><br>
+				Reset matrix to: <button id="matrixId">$\left[\begin{array}{c}1&0&0\\0&1&0\\0&0&1\end{array}\right]$</button><br><br>
+				Use Degrees: <input type="checkbox" id="degs">
+				
+				
+				<!-- 
+				<br><br>
+				<div class="centerBlock">$\left[\begin{array}{c}2\\4\end{array}\right]\cdot\left[\begin{array}{c}3\\5\end{array}\right]=(2\times3) + (4\times5)$</div> -->
+			</div>
+		</div>
+	</body>
+</html>

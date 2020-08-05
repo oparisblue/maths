@@ -1,0 +1,117 @@
+body {
+	font-family:"Georgia";
+	font-size:1.1em;
+	background-color:#fffaf1;
+	color:#212121;
+	/* background-color:#212121;
+	color:#fff; */
+}
+
+#page {
+	margin:0 auto;
+	width:820px;
+	position:relative;
+}
+
+#demos {
+	position:absolute;
+	left:0;
+	width:300px;
+}
+
+#article {
+	position:absolute;
+	left:320px;
+	width:500px;
+	margin-bottom:20px;
+}
+
+#demos canvas {
+	background-color:#212121;
+	width:300px;
+	height:300px;
+	position:relative;
+}
+
+#demo1 {
+	top:290px;
+}
+#demo2 {
+	top:1110px;
+}
+#demo3 {
+	top:1170px;
+}
+#scalarInput {
+	width:90%;
+}
+#demo4 {
+	top:1300px;
+}
+#demo5 {
+	top:2075px;
+}
+#demo6 {
+	top:5340px;
+}
+#matrixInput {
+	pointer-events:all;
+	text-align:right;
+	background-color:#E5E1D8;
+}
+#matrixInput input {
+	width:50px;
+}
+#matrixInput td {
+	width:150px;
+}
+#matrixApply {
+	width:90%;
+	margin:10px auto;
+	display:block;
+}
+
+.centerBlock {
+	text-align:center;
+	padding:5px;
+}
+
+.MathJax_CHTML {
+	pointer-events:none;
+}
+
+table {
+	border-collapse:collapse;
+}
+table td {
+	padding:5px;
+}
+table tr:nth-child(odd) td {
+	background-color:#E5E1D8;
+}
+
+.vuw {
+	background-color:#1D2624;
+	position:relative;
+	left:-10px;
+	top:-10px;
+	width:calc(100% + 20px);
+	height:calc(100% + 20px);
+	box-sizing:border-box;
+	padding:10px;
+	color:#fff;
+	height:90px;
+	line-height:70px;
+	font-size:1.5em;
+}
+.vuw img {
+	height:50px;
+	float:left;
+	margin:10px;
+	margin-right:25px;
+}
+.transformGif {
+	width:450px;
+	margin:0 auto;
+	display:block;
+}
