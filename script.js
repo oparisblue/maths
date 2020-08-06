@@ -383,7 +383,7 @@ window.onload = ()=>{
 		
 		for (let point of demoSix.points) {
 			let x = (matrix[0] * point.x) + (matrix[1] * point.y) + (matrix[2] * 1);
-			let y = (matrix[3] * point.x) + (matrix[4] * point.y) + (matrix[5] * 1);
+			let y = (matrix[3] * point.x) + (matrix[4] * point.y) + (-matrix[5] * 1);
 			//let z = (matrix[6] * point.x) + (matrix[7] * point.y) + (matrix[8] * 1);
 			
 			point.x = x;
